@@ -1,42 +1,46 @@
 #include "main.h"
 
 /**
- * _atoi - Convert a string to integer.
- * @s: char array string
- * Description: Number in the string can be preceded by an infinite
- * number of characters.
- * You need to take into account all -/+ signs before the number.
- * If there are no numbers in the string, return 0.
- * No need to check for overflow.
- * Not allowed to hard-code special values.
- * Return: first integer found in string
+ * _atoi - converts a string to an integer
+ * @s: string to be converted
+ *
+ * Return: the int converted from the string
  */
-
 int _atoi(char *s)
 {
-	int i;
-	int h, p;
+	int i, d, n, len, f, digit;
 
-	h = 0;
-	p = -1;
-	for (i = 0; s[i] != '\0'; i++)
+	i = 0;
+	d = 0;
+	n = 0;
+	len = 0;
+	f = 0;
+	digit = 0;
+
+	while (s[len] != '\0')
+		len++;
+
+	while (i < len && f == 0)
 	{
 		if (s[i] == '-')
-			p *= -1;
+			++d;
 
-		if (s[i] > 47 && s[i] < 58)
+		if (s[i] >= '0' && s[i] <= '9')
 		{
-			if (h < 0)
-				h = (h * 10) - (s[i] - '0');
-			else
-				h = (s[i] - '0') * -1;
-
-			if (s[i + 1] < 48 || s[i + 1] > 57)
+			digit = s[i] - '0';
+			if (d % 2)
+				digit = -digit;
+			n = n * 10 + digit;
+			f = 1;
+			if (s[i + 1] < '0' || s[i + 1] > '9')
 				break;
+			f = 0;
 		}
+		i++;
 	}
-	if (p < 0)
-		h *= -1;
 
-	return (h);
+	if (f == 0)
+		return (0);
+
+	return (n);
 }
